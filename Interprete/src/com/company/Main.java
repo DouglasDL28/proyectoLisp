@@ -34,12 +34,13 @@ public class Main {
                     String userFile = input.nextLine();
                     userFile = input.nextLine();
 
-                   for(String i: myLexer.putInArray(userFile)) {
+                   for(String i: myLexer.tokenize( userFile)) {
                        tokens.push(i);
                    }
 
                     System.out.println(tokens.toString());
 
+                   String token = tokens.data.get(0);
                     for (String token: tokens.data) {
                         switch(token){
                             case "+": {

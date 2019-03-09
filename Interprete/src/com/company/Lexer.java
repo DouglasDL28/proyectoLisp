@@ -14,25 +14,24 @@ public class Lexer {
     int parentAbirto = 0;
 
 
-    public ArrayList<String> putInArray (String archivo) {
+    public ArrayList<String> tokenize (String archivo) {
         try {
             Stream<String> lines = Files.lines(
                     Paths.get(archivo),
                     StandardCharsets.UTF_8
             );
             lines.forEach(line -> {
-                String[] parts = line.split(" ");
+                String[] parts = line.replace("(", "( ").replace(")", " )").split(" ");
                 for (String i : parts) {
                     if (i.contains("(")){
                         parentAbirto ++;
-                        i = i.replace("(","");
 
                     }
                     if (i.contains(")")){
                         parentCerrado ++;
-                        i = i.replace(")","");
                     }
 
+                    i = i.toUpperCase();
                     tokens.add(i);
                 }
             });

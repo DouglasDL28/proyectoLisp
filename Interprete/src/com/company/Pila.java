@@ -1,11 +1,11 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 public class Pila<String> {
 
-    public ArrayList<String> data;
+    public List<String> data;
 
     public Pila () {
         this.data = new ArrayList<>();
