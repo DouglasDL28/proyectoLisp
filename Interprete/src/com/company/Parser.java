@@ -10,16 +10,38 @@ public class Parser {
 
     public void readTokens(String programa){
         Lexer myLexer = new Lexer();
+        ArrayList<String> mList = new ArrayList<>();
 
-        ArrayList<String> tokens = myLexer.tokenize(programa);
-        String token = tokens.remove(0);
+        Pila<String> tokens = myLexer.tokenize(programa);
+         String token = tokens.pop();
         if (token.equals("(")){
+            switch (token){
+                case "+": {
+                    tokens.pop();
+                    Double a = Double.parseDouble(tokens.pop());
+                    Double b = Double.parseDouble(tokens.pop());
+                    Double resultado = sumar(a, b);
+                    tokens.push(resultado.toString());
+                    break;
+                }
+            }
 
         }
 
     }
 
-    public Object createAtom (String token){
+    public Object createAtom (String token) {
+        try {
+            return Integer.parseInt(token);
+        } catch (Exception e) {
+            try {
+                return Float.parseFloat(token);
+            } catch (Exception e2) {
+               return token;
+            }
+        }
+
+
 
     }
 

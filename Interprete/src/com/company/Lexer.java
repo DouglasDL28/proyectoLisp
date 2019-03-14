@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class Lexer {
-    ArrayList<String> tokens = new ArrayList<>();
+    Pila<String> tokens = new Pila<>();
     String archivo;
     int parentCerrado = 0;
     int parentAbirto = 0;
 
 
-    public ArrayList<String> tokenize (String archivo) {
+    public Pila<String> tokenize (String archivo) {
         try {
             Stream<String> lines = Files.lines(
                     Paths.get(archivo),
@@ -32,7 +32,7 @@ public class Lexer {
                     }
 
                     i = i.toUpperCase();
-                    tokens.add(i);
+                    tokens.push(i);
                 }
             });
         } catch (
