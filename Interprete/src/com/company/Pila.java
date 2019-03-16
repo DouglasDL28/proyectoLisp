@@ -29,7 +29,7 @@ public class Pila<String> {
     }
 
     public void push(String item) {
-        data.add(0,item);
+        data.add(item);
     }
 
     public java.lang.String toString() {

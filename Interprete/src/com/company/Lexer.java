@@ -14,6 +14,11 @@ public class Lexer {
     int parentAbirto = 0;
 
 
+    /**
+     * Separa el texto en el programa y crea una pila de tokens, los cuales son todos los elementos del programa (incluyendo paréntesis).
+     * @param archivo El archivo de texto con el programa en Common Lisp.
+     * @return Devuelve una pila con todos los tokens.
+     */
     public Pila<String> tokenize (String archivo) {
         try {
             Stream<String> lines = Files.lines(

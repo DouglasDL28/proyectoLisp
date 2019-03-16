@@ -1,14 +1,7 @@
 package com.company;
 
-import com.company.Pila;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -22,7 +15,7 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
         Pila<String> tokens = new Pila<>();
-        Lexer myLexer = new Lexer();
+        Lexer mLexer = new Lexer();
         Parser myParser = new Parser();
 
         do {
@@ -34,28 +27,11 @@ public class Main {
                     String userFile = input.nextLine();
                     userFile = input.nextLine();
 
-                   for(String i: myLexer.tokenize( userFile)) {
-                       tokens.push(i);
-                   }
 
-                    System.out.println(tokens.toString());
+                    System.out.println("Programa: "+ (List) myParser.parse(userFile));
 
-                   String token = tokens.data.get(0);
-                    for (String token: tokens.data) {
-                        switch(token){
-                            case "+": {
-                                tokens.pop();
-                                Double a = Double.parseDouble(tokens.pop());
-                                Double b = Double.parseDouble(tokens.pop());
-                                Double resultado = myParser.sumar(a, b);
-                                tokens.push(resultado.toString());
-                                break;
-                            }
+                    myParser.evaluate((List) myParser.parse(userFile));
 
-                        }
-                    }
-
-                    System.out.println(tokens.peek());
                     break;
                 }
 
