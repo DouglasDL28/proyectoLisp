@@ -14,8 +14,6 @@ public class Main {
         boolean wantsToContinue = true;
 
         Scanner input = new Scanner(System.in);
-        Pila<String> tokens = new Pila<>();
-        Lexer mLexer = new Lexer();
         Parser myParser = new Parser();
 
         do {

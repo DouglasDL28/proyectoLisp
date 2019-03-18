@@ -66,14 +66,17 @@ public class Parser {
      * recorriendo hasta que no haya más elementos.
      */
     public Object evaluate(List list) {
+        //Mientras aun haya elementos en la lista evalue.
         while(list.size() > 0) {
+            //Primer elemento de la lista (funciona como un Stack).
             Object atom = list.remove(0);
-            System.out.println(atom.toString());
 
+            //Si el primer elemento es un String verifique la función que se desea operar.
             if (atom instanceof String) {
                 System.out.println(atom); //Prueba.
 
                 switch (atom.toString()) {
+                    //Si es una suma, realice la operación.
                     case "+": {
                         Double cont = 0.0;
 
@@ -84,6 +87,7 @@ public class Parser {
                                 cont += (Double) x;
                                 System.out.println(cont);
 
+                                //Si adentro de la suma hay una lista, evalue la lista.
                             } else if (x instanceof List) {
                                 cont += (Double) evaluate((List) x);
                             }
@@ -92,6 +96,7 @@ public class Parser {
                         return cont;
                     }
 
+                    //Si es una resta, realice la operación.
                     case "-": {
                         Double cont = 0.0;
 
@@ -102,6 +107,7 @@ public class Parser {
                                 cont -= (Double) x;
                                 System.out.println(cont);
 
+                                //Si hay una lista adentro, evalue la lista.
                             } else if (x instanceof List) {
                                 cont -= (Double) evaluate((List) x);
                             }
@@ -110,6 +116,7 @@ public class Parser {
                         return cont;
                     }
 
+                    //Si es una multiplicación, realice la operación.
                     case "*": {
                         Double cont = (Double) list.remove(0);
 
@@ -120,6 +127,7 @@ public class Parser {
                                 cont *= (Double) x;
                                 System.out.println(cont);
 
+                                //Si adentro de la operación hay una lista, evalua.
                             } else if (x instanceof List) {
                                 cont *= (Double) evaluate((List) x);
                             }
@@ -128,6 +136,7 @@ public class Parser {
                         return cont;
                     }
 
+                    //Si es una división, realice la operación.
                     case "/": {
                         Double cont = (Double) list.remove(0);
 
@@ -138,6 +147,7 @@ public class Parser {
                                 cont /= (Double) x;
                                 System.out.println(cont);
 
+                                //Si adentro hay una lista, evalua.
                             } else if (x instanceof List) {
                                 cont /= (Double) evaluate((List) x);
                             }
@@ -148,6 +158,7 @@ public class Parser {
                         return cont;
                     }
 
+                    //Menor que.
                     case "<": {
                         Boolean res = false;
                         Double cont = (Double) list.remove(0);
@@ -159,6 +170,7 @@ public class Parser {
                                 res = cont < (Double) x;
                                 System.out.println(cont);
 
+                                //Si adentro hay una lista, evalue.
                             } else if (x instanceof List) {
                                 res = cont < (Double) evaluate((List) x);
                             }
@@ -168,6 +180,7 @@ public class Parser {
                         return res;
                     }
 
+                    //Mayor que.
                     case ">": {
                         Boolean res = false;
                         Double cont = (Double) list.remove(0);
@@ -177,6 +190,8 @@ public class Parser {
                             if (x instanceof Number) {
                                 res = cont > (Double) x;
                                 System.out.println(cont);
+
+                                //Si adentro hay una lista, evalue.
                             } else if (x instanceof List) {
                                 res = cont > (Double) evaluate((List) x);
                             }
@@ -186,15 +201,18 @@ public class Parser {
                         return res;
                     }
 
+                    //Comparación de igualdad.
                     case "EQUAL": {
                         Boolean res = false;
-                        Double cont = (Double) list.remove(0);
+                        Object cont = list.remove(0);
 
                         while (list.size() > 0) {
                             Object x = list.remove(0);
-                            if (x instanceof Number) {
-                                res = cont.equals((Double) x);
+                            if (x instanceof Number || x instanceof String) {
+                                res = cont.equals(x);
                                 System.out.println(cont);
+
+                                //Si adentro hay una lista, evalue.
                             } else if (x instanceof List) {
                                 res = cont.equals((Double) evaluate((List) x));
                             }
@@ -203,17 +221,43 @@ public class Parser {
                         return res;
                     }
 
-                    case "ATOM": {
-                        Object x = list.remove(0);
-                        if (x instanceof List){
-                            System.out.println("TRUE");
-                            return true;
-                        } else {
-                            System.out.println("FALSE");
-                            return false;
+                    case "COND":{
+                        //Lista con las operaciones.
+                        while (list.size() > 0){
+                            //Lista con las operaciones.
+                            Object op = list.remove(0);
+                            if (op instanceof List){
+                                if (((List) op).size() == 2) {
+                                    System.out.println(((List) op).get(0));
+                                    Object test = evaluate((List) ((List) op).get(0)); //Test (debe devolver booleano).
+
+                                    if (test instanceof Boolean || (Boolean) test){
+                                        evaluate((List) ((List) op).get(1)); //Si el test devuelve True, realiza la acción.
+                                    } else {
+                                        System.out.println("No se pudo.");
+                                    }
+                                }
+                            }
                         }
+                        break;
                     }
 
+                    //Evalua si es una lista o no.
+                    case "ATOM": {
+                        while  (list.size() > 0){
+                            Object x = list.remove(0);
+                            if (x instanceof List){
+                                System.out.println("TRUE");
+                                return true;
+                            } else {
+                                System.out.println("FALSE");
+                                return false;
+                            }
+                        }
+                        break;
+                    }
+
+                    //Definición de funciones.
                     case "DEFUN": {
                         System.out.println("Encuentra defun.");
                         String name = (String) list.remove(0);
@@ -228,10 +272,12 @@ public class Parser {
                                 i++;
                             }
                         }
+                        //Lo agrega al HashMap functions.
                         functions.put(name, function);
                         break;
                     }
 
+                    //Si no es ninguna de las anteriores, busca alguna operación igual en el HashMap de funciones.
                     default: {
                         System.out.println("Llegué al default");
                         if (functions.containsKey(atom)) {
