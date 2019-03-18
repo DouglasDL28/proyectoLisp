@@ -1,5 +1,7 @@
 package com.company;
 
+import javafx.beans.binding.ObjectExpression;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 public class Parser {
 
     HashMap<String, List<Object>> functions = new HashMap<>();
+    HashMap<String, List<Object>> lists = new HashMap<>();
 
     /**
      * La función parse está diseñada para llevar a cabo la tokenización y parseo en una sola función.
@@ -233,8 +236,6 @@ public class Parser {
 
                                     if (test instanceof Boolean || (Boolean) test){
                                         evaluate((List) ((List) op).get(1)); //Si el test devuelve True, realiza la acción.
-                                    } else {
-                                        System.out.println("No se pudo.");
                                     }
                                 }
                             }
@@ -246,7 +247,7 @@ public class Parser {
                     case "ATOM": {
                         while  (list.size() > 0){
                             Object x = list.remove(0);
-                            if (x instanceof List){
+                            if (lists.containsKey(x)){
                                 System.out.println("TRUE");
                                 return true;
                             } else {
@@ -254,6 +255,23 @@ public class Parser {
                                 return false;
                             }
                         }
+                        break;
+                    }
+
+                    case "LIST": {
+
+                        String name =(String) list.remove(0);
+
+                        Object x = list.remove(0);
+
+                        if (x instanceof List){
+                            lists.put(name, (List<Object>) x);
+
+                        } else {
+                            System.out.println("El elemento no es una lista.");
+                        }
+
+                        System.out.println(lists.get(name));
                         break;
                     }
 
