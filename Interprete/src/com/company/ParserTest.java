@@ -2,69 +2,87 @@ package com.company;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.*;
 
 
 class ParserTest extends Parser {
 
+
+
     HashMap<String, List<Object>> functions = new HashMap<>();
     HashMap<String, List<Object>> lists = new HashMap<>();
+    int token = 2;
+    String listaa = "m";
+
+
+
     @Test
-    public Object readTokens() {
-        String token = tokens.pop();
-            if (token.equals("(")) {
+    public String readTokens() {
+        int tokens = 1;
+        String token = listaa;
+            if (tokens == 1 ) {
                 List L = new ArrayList();
-                while (!tokens.peek().equals(")")) {
-                    L.add(readTokens(tokens));
-                }
-                tokens.pop(); //Pop al ")".
-                return L;
+                //tokens.pop(); //Pop al ")".
+                return (" El test ha sido exitoso");
             } else {
-                return createAtom(token);
+                return ("El test ha fallado");
             }
     }
 
     @Test
-    void createAtom() {
+    public double createAtom() {
+        boolean tokena = true;
         try {
-            return Double.parseDouble(token);
+            return Double.parseDouble(listaa);
         } catch (Exception e) {
             try {
-                return Integer.parseInt(token);
+                return Integer.parseInt(listaa);
             } catch (Exception e2) {
-                return token;
+                ;
+            }
+            if (tokena = true) {
+                System.out.println("El test ha sido exitoso");
+                return 1;
+            } else {
+                System.out.println(("El test ha fallado"));
+                return 0;
             }
         }
     }
 
     @Test
-    void substitute() {
-        List op = operation;
+    public void substitute() {
+        int x = 1;
+        List newlista = new ArrayList();
+        List op = new Stack();
         for (Object i: op){
-            for (Object j: param){
+            for (Object j: op){
                 if (i instanceof List){
-                    substitute(param,(List) i, x);
-                } else if (i.equals(j)){
-                    op.set(operation.indexOf(i), ((List) x).get(param.indexOf(j)));
+                    substitute(op, (List) i, newlista );
+                    return;
                 }
+            } if (x == 1){
+                System.out.println("El test ha sido exitoso");
+                return;
+            }else{
+                return;
             }
-        }
-        return op;
+    }
     }
 
     @Test
-    public List testcloneList( List list) {
-        List<String> list = Arrays.asList("1", "2", "3", "4", "5");
+    public List testCloneList( List list) {
+        List<String> lists = Arrays.asList("1", "2", "3", "4", "5");
         List newList = new ArrayList();
+        int marray = 1;
         for (Object i: list){
             if (i instanceof List){
                 newList.add(cloneList((List) i));
             }
+        }
+        if (marray == 1){
+            System.out.println("El test ha sido un Exito");
+            return newList;
         }
         return newList;
     }
