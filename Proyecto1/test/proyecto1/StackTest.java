@@ -5,6 +5,8 @@
  */
 package proyecto1;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -42,10 +44,12 @@ public class StackTest {
      */
     @Test
     public void testPush() {
+        ArrayList<String> arrpush = new ArrayList<>();
         System.out.println("push");
-        Object item = null;
+        Object item = "Prueba";
         Stack instance = new Stack();
         instance.push(item);
+        System.out.println(Array.get(item, 0));
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
