@@ -1,6 +1,6 @@
 package com.company;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ class ParserTest extends Parser {
 
 
 
-    @Test
+    @org.junit.Test
     public String readTokens() {
         int tokens = 1;
         String token = listaa;
