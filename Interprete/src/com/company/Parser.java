@@ -83,19 +83,27 @@ public class Parser {
                     case "+": {
                         Double cont = 0.0;
 
+                        Object j = list.remove(0);
+
+                        if (j instanceof List){
+                            j = evaluate((List) j);
+                            cont = (Double) j;
+                        } else if (j instanceof Number){
+                            cont = (Double) j;
+                        }
+
                         while (list.size() > 0) {
                             Object x = list.remove(0);
 
                             if (x instanceof Number) {
                                 cont += (Double) x;
-                                System.out.println(cont);
 
                                 //Si adentro de la suma hay una lista, evalue la lista.
                             } else if (x instanceof List) {
                                 cont += (Double) evaluate((List) x);
                             }
                         }
-                        System.out.println(cont);
+                        System.out.println("Resultado +: " + cont);
                         return cont;
                     }
 
@@ -103,143 +111,203 @@ public class Parser {
                     case "-": {
                         Double cont = 0.0;
 
-                        while (list.size() > 0) {
-                            Object x = list.remove(0);
+                        Object x = list.remove(0);
 
-                            if (x instanceof Number) {
-                                cont -= (Double) x;
-                                System.out.println(cont);
+                        if (x instanceof List){
+                            x = evaluate((List) x);
+                            cont = (Double) x;
+                        } else if (x instanceof Number){
+                            cont = (Double) x;
+                        }
+
+                        while (list.size() > 0) {
+                            Object j = list.remove(0);
+
+                            if (j instanceof Number) {
+                                cont -= (Double) j;
 
                                 //Si hay una lista adentro, evalue la lista.
-                            } else if (x instanceof List) {
-                                cont -= (Double) evaluate((List) x);
+                            } else if (j instanceof List) {
+                                cont -= (Double) evaluate((List) j);
                             }
                         }
-                        System.out.println(cont);
+                        System.out.println("Resultado -: " + cont);
                         return cont;
                     }
 
                     //Si es una multiplicación, realice la operación.
                     case "*": {
-                        Double cont = (Double) list.remove(0);
+                        Double cont = 1.0;
 
+                        //Primer elemento.
+                        Object j = list.remove(0);
+
+                        if (j instanceof List){
+                            j = evaluate((List) j);
+                            cont = (Double) j;
+                        } else if (j instanceof Number){
+                            cont = (Double) j;
+                        }
+
+                        //Elementos siguientes.
                         while (list.size() > 0) {
                             Object x = list.remove(0);
 
                             if (x instanceof Number) {
                                 cont *= (Double) x;
-                                System.out.println(cont);
 
                                 //Si adentro de la operación hay una lista, evalua.
                             } else if (x instanceof List) {
                                 cont *= (Double) evaluate((List) x);
                             }
                         }
-                        System.out.println(cont);
+                        System.out.println("Resultado *: " + cont);
                         return cont;
                     }
 
                     //Si es una división, realice la operación.
                     case "/": {
-                        Double cont = (Double) list.remove(0);
+                        Double cont = 1.0;
+                        Object x = list.remove(0);
+
+                        if (x instanceof List){
+                            x = evaluate((List) x);
+                            cont = (Double) x;
+                        } else if (x instanceof Number){
+                            cont = (Double) x;
+                        }
 
                         while (list.size() > 0) {
-                            Object x = list.remove(0);
+                            Object j = list.remove(0);
 
-                            if (x instanceof Number) {
-                                cont /= (Double) x;
-                                System.out.println(cont);
+                            if (j instanceof Number) {
+                                cont /= (Double) j;
 
                                 //Si adentro hay una lista, evalua.
-                            } else if (x instanceof List) {
+                            } else if (j instanceof List) {
                                 cont /= (Double) evaluate((List) x);
                             }
                         }
 
-
-                        System.out.println(cont);
+                        System.out.println("Resultado /: " + cont);
                         return cont;
                     }
 
                     //Menor que.
                     case "<": {
                         Boolean res = false;
-                        Double cont = (Double) list.remove(0);
+                        Double cont = 0.0;
 
-                        while (list.size() > 0) {
-                            Object x = list.remove(0);
+                        //Primer elemento.
+                        Object j = list.remove(0);
 
-                            if (x instanceof Number) {
-                                res = cont < (Double) x;
-                                System.out.println(cont);
-
-                                //Si adentro hay una lista, evalue.
-                            } else if (x instanceof List) {
-                                res = cont < (Double) evaluate((List) x);
-                            }
+                        if (j instanceof List){
+                            j = evaluate((List) j);
+                            cont = (Double) j;
+                        } else if (j instanceof Number){
+                            cont = (Double) j;
                         }
 
-                        System.out.println(res);
+                        //Segundo elemento
+                        Object x = list.remove(0);
+
+                        if (x instanceof Number) {
+                            res = cont < (Double) x;
+                            //Si adentro hay una lista, evalue.
+                        } else if (x instanceof List) {
+                            res = cont < (Double) evaluate((List) x);
+                        }
+
+                        System.out.println("Resultado <: " + res);
                         return res;
                     }
 
                     //Mayor que.
                     case ">": {
                         Boolean res = false;
-                        Double cont = (Double) list.remove(0);
+                        Double cont = 0.0;
 
-                        while (list.size() > 0) {
-                            Object x = list.remove(0);
-                            if (x instanceof Number) {
-                                res = cont > (Double) x;
-                                System.out.println(cont);
+                        //Primer elemento.
+                        Object j = list.remove(0);
 
-                                //Si adentro hay una lista, evalue.
-                            } else if (x instanceof List) {
-                                res = cont > (Double) evaluate((List) x);
-                            }
+                        if (j instanceof List){
+                            j = evaluate((List) j);
+                            cont = (Double) j;
+                        } else if (j instanceof Number){
+                            cont = (Double) j;
                         }
 
-                        System.out.println(res);
+                        //Segundo elemento
+                        Object x = list.remove(0);
+
+                        if (x instanceof Number) {
+                            res = cont > (Double) x;
+                            //Si adentro hay una lista, evalue.
+                        } else if (x instanceof List) {
+                            res = cont > (Double) evaluate((List) x);
+                        }
+
+                        System.out.println("Resultado >: " + res);
                         return res;
                     }
 
                     //Comparación de igualdad.
                     case "EQUAL": {
                         Boolean res = false;
-                        Object cont = list.remove(0);
 
-                        while (list.size() > 0) {
-                            Object x = list.remove(0);
-                            if (x instanceof Number || x instanceof String) {
-                                res = cont.equals(x);
-                                System.out.println(cont);
+                        //Primer elemento.
+                        Object j = list.remove(0);
 
-                                //Si adentro hay una lista, evalue.
-                            } else if (x instanceof List) {
-                                res = cont.equals((Double) evaluate((List) x));
-                            }
+                        if (j instanceof List){
+                            j = evaluate((List) j);
                         }
-                        System.out.println(res);
+
+                        //Segundo elemento
+                        Object x = list.remove(0);
+
+                        if (x instanceof Number) {
+                            res = j.equals(x);
+                            //Si adentro hay una lista, evalue.
+                        } else if (x instanceof List) {
+                            res = j.equals(evaluate((List) x));
+                        }
+
+                        System.out.println("Resultado EQUAL: " + res);
                         return res;
                     }
 
+                    //Operación COND.
                     case "COND":{
-                        //Lista con las operaciones.
-                        while (list.size() > 0){
-                            //Lista con las operaciones.
-                            Object op = list.remove(0);
-                            if (op instanceof List){
-                                if (((List) op).size() == 2) {
-                                    System.out.println(((List) op).get(0));
-                                    Object test = evaluate((List) ((List) op).get(0)); //Test (debe devolver booleano).
+                        while (list.size() > 0) {
+                            Object operation = list.remove(0);
+                            System.out.println(operation);
 
-                                    if (test instanceof Boolean || (Boolean) test){
-                                        evaluate((List) ((List) op).get(1)); //Si el test devuelve True, realiza la acción.
+                            if (operation instanceof List){
+                                if (((List) operation).size() == 2){
+                                    //El primer elemento de una operación siempre es el test y el segundo es una acción.
+                                    Object test = ((List) operation).get(0);
+                                    Object action = ((List) operation).get(1);
+
+                                    if (test instanceof List){
+                                        test = evaluate((List) ((List) operation).get(0));
+                                    } else if (test.equals("TRUE") || test.equals("T")){
+                                        test = true;
+                                    } else if (test.equals("FALSE") || test.equals("NIL")){
+                                        test = false;
+                                    }
+
+                                    //Si el resultado de evaluar test es Booleano y es TRUE, ejecuta la acción.
+                                    if(test instanceof Boolean){
+                                        if ((Boolean) test){
+                                            Object result = evaluate((List) action);
+                                            System.out.println("Resultado COND: " + result);
+                                            return result;
+                                        }
                                     }
                                 }
                             }
                         }
+
                         break;
                     }
 
@@ -258,6 +326,7 @@ public class Parser {
                         break;
                     }
 
+                    //Crea una lista y la guarda en el HashMap lists.
                     case "LIST": {
 
                         String name =(String) list.remove(0);
@@ -276,14 +345,12 @@ public class Parser {
                     }
 
                     //Definición de funciones.
-                    case "DEFUN": {
-                        System.out.println("Encuentra defun.");
+                    case "DEFUN":  {
                         String name = (String) list.remove(0);
                         List<Object> function = new ArrayList<>();
 
                         while (list.size() > 0) {
                             Object x = list.remove(0);
-                            System.out.println("Encuentra: " + x);
                             int i = 0;
                             if (x instanceof List) {
                                 function.add(i, x);
@@ -297,32 +364,46 @@ public class Parser {
 
                     //Si no es ninguna de las anteriores, busca alguna operación igual en el HashMap de funciones.
                     default: {
-                        System.out.println("Llegué al default");
+                        //Si el nombre está entre las funciones.
                         if (functions.containsKey(atom)) {
-                            String name = (String) atom;
-                            System.out.println(name); //Prueba.
+                            System.out.println("La función está definida!");
 
-                            List operation = (List) functions.get(atom).get(0);
-                            System.out.println(operation); //Prueba.
+                            String name = (String) atom;
+                            System.out.println("Función: " + name); //Prueba.
+
+                            List op = (List) functions.get(atom).get(0);
+                            List operation = cloneList(op);
+
+                            System.out.println("Operación: " + op); //Prueba.
 
                             List param = (List) functions.get(atom).get(1);
-                            System.out.println(param); //Prueba.
+                            System.out.println("Parámetros: " + param); //Prueba.
 
                             while (list.size() > 0) {
                                 Object x = list.remove(0);
-                                System.out.println(x); //Prueba.
 
                                 if (x instanceof List) {
-                                    if (((List) x).size() == param.size()) {
-                                        System.out.println("Tamaño igual.");
-                                        for (Object i: operation) {
-                                            for (Object j: param){
-                                                if(i.equals(j)){
-                                                    operation.set(operation.indexOf(i), ((List) x).get(param.indexOf(j)));
-                                                }
-                                            }
+                                    //Cuando recibe una operación en vez de parámetros como tal.
+                                    if (((List) x).get(0) instanceof String){
+                                        List mList = new ArrayList();
+                                        x = evaluate((List) x);
+                                        System.out.println(x);
+                                        mList.add(x);
+                                        if (mList.size() == param.size()) {
+                                            op = substitute(param, operation,(List) mList);
+                                            System.out.println(op);
+                                            Object result = evaluate(op);
+                                            System.out.println("Resultado " + name + ": " + result);
+                                            return result;
                                         }
-                                        evaluate((List) operation);
+                                    } else {
+                                        if (((List) x).size() == param.size()) {
+                                            op = substitute(param, operation,(List) x);
+                                            System.out.println(op);
+                                            Object result = evaluate(op);
+                                            System.out.println("Resultado " + name + ": " + result);
+                                            return result;
+                                        }
                                     }
                                 }
                             }
@@ -332,14 +413,59 @@ public class Parser {
                         break;
                     }
                 }
+                //Si es un número, devuelve el número.
             } else if (atom instanceof Number) {
                 System.out.println(atom.toString());
+                return atom;
 
+                //Si el primer elemento es una lista, evalua (recursión).
             } else if (atom instanceof List) {
-                System.out.println("Lista");
                 evaluate((List) atom);
             }
         }
     return null;
     }
+
+    /**
+     * Esta función está diseñada para sustituir todos los parámetros de una operación por los valores deseados.
+     * @param param La lista de parametros de la operación.
+     * @param operation La operación a llevar a cabo.
+     * @param x Los valores que el usuario le quiere dar al parámetro en la función.
+     * @return
+     */
+    public List substitute (List param, List operation, List x) {
+        List op = operation;
+        for (Object i: op){
+            for (Object j: param){
+                if (i instanceof List){
+                    substitute(param,(List) i, x);
+                } else if (i.equals(j)){
+                    op.set(operation.indexOf(i), ((List) x).get(param.indexOf(j)));
+                }
+            }
+        }
+        return op;
+    }
+
+    /**
+     * El próposito de esta lista es poder hacer un deep clone a listas definidas en el programa. Esto hace posible que la lista clonada
+     * sea modificada sin alterar la lista original.
+     * @param list La lista que se desea clonar.
+     * @return Devuelve la lista clonada.
+     */
+    public List cloneList (List list){
+        List newList = new ArrayList();
+        for (Object i: list){
+            if (i instanceof List){
+                newList.add(cloneList((List) i));
+            }
+            else {
+                Object x = createAtom(String.valueOf(i));
+                newList.add(x);
+            }
+        }
+        return newList;
+    }
 }
+
+
