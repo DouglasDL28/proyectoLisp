@@ -12,7 +12,6 @@ public class Main {
     public static void main (String []args){
 
         boolean wantsToContinue = true;
-
         Scanner input = new Scanner(System.in);
         Parser myParser = new Parser();
 
@@ -25,8 +24,7 @@ public class Main {
                     String userFile = input.nextLine();
                     userFile = input.nextLine();
 
-
-                    System.out.println("Programa: "+ (List) myParser.parse(userFile));
+                    System.out.println("Programa: "+ myParser.parse(userFile));
 
                     myParser.evaluate((List) myParser.parse(userFile));
 

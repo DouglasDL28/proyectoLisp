@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class Lexer {
@@ -15,7 +14,7 @@ public class Lexer {
 
 
     /**
-     * Separa el texto en el programa y crea una pila de tokens, los cuales son todos los elementos del programa (incluyendo paréntesis).
+     * Separa el texto del programa y crea una pila de tokens, los cuales son todos los elementos del programa (incluyendo paréntesis).
      * @param archivo El archivo de texto con el programa en Common Lisp.
      * @return Devuelve una pila con todos los tokens.
      */
