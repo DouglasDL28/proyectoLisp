@@ -29,7 +29,10 @@ class PilaTest extends Pila {
     public String TestPeek() {
         System.out.println("Peek");
         ArrayList<String> arrPeek = new ArrayList<>();
-        
+        Object item = "Prueba";
+        Stack instance = new Stack();
+        instance.push(item);
+        instance.peek();
         return ("EL test fue exitoso");
     }
 
